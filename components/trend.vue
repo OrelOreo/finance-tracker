@@ -12,11 +12,7 @@
     <div>
       <USkeleton v-if="loading" class="h-8 w-full" />
       <div v-else class="flex space-x-1 items-center text-sm">
-        <UIcon
-          :name="icon"
-          class="w-6 h-6"
-          :class="{ green: trendingUp, red: !trendingUp }"
-        />
+        <UIcon :name="icon" class="w-6 h-6" :class="{ green: trendingUp, red: !trendingUp }" />
         <div class="text-gray-500 dark:text-gray-400">
           {{ percentageTrend }} vs last period
         </div>
@@ -36,7 +32,8 @@ const props = defineProps({
   loading: Boolean,
 });
 
-const { currency } = useCurrency(props.amount);
+const { amount } = toRefs(props)
+const { currency } = useCurrency(amount);
 const trendingUp = computed(() => props.amount > props.lastAmount);
 
 const percentageTrend = computed(() => {
@@ -60,6 +57,7 @@ const icon = computed(() => {
 .green {
   @apply text-green-600 dark:text-green-400;
 }
+
 .red {
   @apply text-red-600 dark:text-red-400;
 }
